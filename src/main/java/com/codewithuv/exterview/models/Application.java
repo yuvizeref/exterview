@@ -1,6 +1,7 @@
 package com.codewithuv.exterview.models;
 
-import jakarta.persistence.Column;
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,24 +12,49 @@ public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+    private Long companyId;
+    private String role;
+    private Date dateApplied;
+    private String verdict;
 
-    @Column(unique = true)
-    private String company;
+    public String getVerdict() {
+        return verdict;
+    }
 
-    public long getId() {
+    public void setVerdict(String verdict) {
+        this.verdict = verdict;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getCompany() {
-        return company;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Date getDateApplied() {
+        return dateApplied;
+    }
+
+    public void setDateApplied(Date dateApplied) {
+        this.dateApplied = dateApplied;
     }
 }

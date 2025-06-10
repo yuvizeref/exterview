@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codewithuv.exterview.models.Application;
-import com.codewithuv.exterview.repository.ApplicationRepo;
+import com.codewithuv.exterview.repositories.ApplicationRepo;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ApplicationService {
@@ -15,11 +17,15 @@ public class ApplicationService {
     @Autowired
     private ApplicationRepo applicationRepo;
 
-    public List<Application> getAllApplications() {
+    public List<Application> getApplications() {
         return applicationRepo.findAll();
     }
 
-    public Optional<Application> getApplicationById(Long id) {
+    public List<Application> getApplications(Long companyId) {
+        return applicationRepo.findByCompanyId(companyId);
+    }
+
+    public Optional<Application> getApplication(Long id) {
         return applicationRepo.findById(id);
     }
 
@@ -29,5 +35,10 @@ public class ApplicationService {
 
     public void deleteApplication(Long id) {
         applicationRepo.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteAllApplications(Long companyId) {
+        applicationRepo.deleteApplicationsByCompanyId(companyId);
     }
 }
