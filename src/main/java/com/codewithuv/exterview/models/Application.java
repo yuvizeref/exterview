@@ -2,6 +2,8 @@ package com.codewithuv.exterview.models;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,8 @@ public class Application {
     private Long id;
     private Long companyId;
     private String role;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateApplied;
     private String verdict;
 

@@ -61,7 +61,13 @@ public class DataController {
             throw new IllegalArgumentException("The input number must be greater than 0");
         }
         Random random = new Random();
-        return random.nextLong(max);
+        long result;
+
+        do {
+            result = random.nextLong(max);
+        } while (result == 0);
+
+        return result;
     }
 
     public static Date getRandomDate() {
@@ -84,7 +90,7 @@ public class DataController {
 
             for (int i = 0; i < 3; i++) {
                 Application application = new Application();
-                application.setCompanyId(getRandomNumber(companies.length - 1));
+                application.setCompanyId(getRandomNumber(companies.length));
                 application.setRole(getRandomString(roles));
                 application.setDateApplied(getRandomDate());
                 application.setVerdict(getRandomString(verdicts));
