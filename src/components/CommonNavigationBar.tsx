@@ -1,5 +1,3 @@
-import type { title } from "process";
-import { Tab, Tabs } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
