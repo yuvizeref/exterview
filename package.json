@@ -12,6 +12,8 @@
   "dependencies": {
     "axios": "^1.9.0",
     "bootstrap": "^5.3.6",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
     "react-bootstrap-icons": "^1.11.6",
@@ -19,6 +21,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@types/lodash": "^4.17.17",
     "@types/node": "^24.0.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",

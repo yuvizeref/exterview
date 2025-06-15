@@ -3,7 +3,8 @@ import type { CompanyType } from "../types/CompanyType";
 
 const fetchCompanies = async (
   setCompanies: (data: CompanyType[]) => void,
-  setLoading: (flag: boolean) => void
+  setLoading: (flag: boolean) => void,
+  setFilteredCards: (data: CompanyType[]) => void
 ) => {
   try {
     const response = await fetch(Constants.API_URL + "/companies");
@@ -12,6 +13,7 @@ const fetchCompanies = async (
     }
     const data = await response.json();
     setCompanies(data);
+    setFilteredCards(data);
     setLoading(false);
   } catch (error) {
     console.log(error);

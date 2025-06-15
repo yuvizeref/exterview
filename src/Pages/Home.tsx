@@ -1,52 +1,23 @@
-import CompaniesPage from "./CompaniesPage";
-import { useEffect, useState } from "react";
-import type { CompanyType } from "../types/CompanyType";
-import fetchCompanies from "../utils/CompanyUtils";
-import {
-  fetchAllApplications,
-  fetchApplications,
-} from "../utils/ApplicationUtils";
-import type { ApplicationType } from "../types/ApplicationTye";
-import ApplicationsPage from "./ApplicationsPage";
+import { useState } from "react";
+import ApplicationCardGroup from "../components/ApplicationCardGroup";
 import CommonNavigationBar from "../components/CommonNavigationBar";
-import CardGroupContainer from "../components/CardGroupContainer";
+import CompanyCardGroup from "../components/CompanyCardGroup";
+import { Container } from "react-bootstrap";
 
 const Home = () => {
-  const [companies, setCompanies] = useState<CompanyType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [companySelected, setCompanySelected] = useState(0);
-  const [applications, setApplications] = useState<ApplicationType[]>([]);
-  const [page, setPage] = useState(0);
+  const [companyId, setCompanyId] = useState(0);
 
-  useEffect(() => {
-    if (page == 1) {
-      fetchApplications(companySelected, setApplications, setLoading);
-    } else if (page == 2) {
-      fetchAllApplications(setApplications, setLoading);
-    } else fetchCompanies(setCompanies, setLoading);
-  }, [page, companySelected]);
-
-  const handleClick = (companyId: number) => {
-    setCompanySelected(companyId);
-    setPage(1);
+  const handleCompanyClick = (id: number) => {
+    setCompanyId(id);
   };
-
-  if (loading) return <div>Loading...</div>;
 
   return (
     <>
-      <CommonNavigationBar setPage={setPage}></CommonNavigationBar>
-      <CardGroupContainer>
-        {page === 0 && (
-          <CompaniesPage
-            companies={companies}
-            onClick={handleClick}
-          ></CompaniesPage>
-        )}
-        {(page == 1 || page == 2) && (
-          <ApplicationsPage applications={applications}></ApplicationsPage>
-        )}
-      </CardGroupContainer>
+      <CommonNavigationBar></CommonNavigationBar>
+      <Container fluid style={{ display: "flex" }}>
+        <CompanyCardGroup onClick={handleCompanyClick}></CompanyCardGroup>
+        <ApplicationCardGroup companyId={companyId}></ApplicationCardGroup>
+      </Container>
     </>
   );
 };
