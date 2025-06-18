@@ -34,7 +34,9 @@ public class DataController {
             "SWE I",
             "SDE 2",
             "SDE 3",
-            "Software Development Engineer"
+            "Software Development Engineer",
+            "Senior Software Engineer",
+            "Senior Software developer"
     };
 
     private String[] verdicts = {
@@ -56,15 +58,15 @@ public class DataController {
         return roles[randomIndex];
     }
 
-    public static Long getRandomNumber(int max) {
-        if (max <= 0) {
-            throw new IllegalArgumentException("The input number must be greater than 0");
+    public static Long getRandomNumber(long min, long max) {
+        if (min >= max) {
+            throw new IllegalArgumentException("The min value must be less than the max value.");
         }
         Random random = new Random();
         long result;
 
         do {
-            result = random.nextLong(max);
+            result = min + random.nextLong(max - min);
         } while (result == 0);
 
         return result;
@@ -88,9 +90,10 @@ public class DataController {
             newCompany.setName(company);
             companyService.saveCompany(newCompany);
 
-            for (int i = 0; i < 3; i++) {
+            Long apps = getRandomNumber(5, 15);
+            for (int i = 0; i < apps; i++) {
                 Application application = new Application();
-                application.setCompanyId(getRandomNumber(companies.length));
+                application.setCompanyId(newCompany.getId());
                 application.setRole(getRandomString(roles));
                 application.setDateApplied(getRandomDate());
                 application.setVerdict(getRandomString(verdicts));
