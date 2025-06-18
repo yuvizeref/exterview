@@ -1,9 +1,8 @@
 const CompGroupContainerStyle: React.CSSProperties = {
   width: "20%",
-  height: "85vh",
+  height: "90vh",
   margin: "5px",
   borderRadius: "8px",
-  overflowY: "auto",
   padding: "10px 10px 0 3px",
 };
 

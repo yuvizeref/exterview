@@ -21,4 +21,25 @@ const fetchCompanies = async (
   }
 };
 
-export default fetchCompanies;
+const addCompany = async (
+  company: CompanyType,
+  setCompanies: (company: CompanyType) => void
+) => {
+  try {
+    const response = await fetch(Constants.API_URL + "/companies", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(company),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to add company");
+    }
+    const result = await response.json();
+    setCompanies(result);
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};
+
+export { fetchCompanies, addCompany };

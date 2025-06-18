@@ -5,7 +5,7 @@ const CommonNavigationBar = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href="#">ExterView</Navbar.Brand>
+        <Navbar.Brand href="/">ExterView</Navbar.Brand>
       </Container>
     </Navbar>
   );

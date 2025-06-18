@@ -1,6 +1,5 @@
 import { Card } from "react-bootstrap";
 import type { CompanyType } from "../types/CompanyType";
-import { Pencil } from "react-bootstrap-icons";
 
 interface Props {
   company: CompanyType;
@@ -15,10 +14,7 @@ const CompanyCard = ({ company, selected, onClick }: Props) => {
       key={company.id}
     >
       <Card.Body onClick={() => onClick(company.id)}>
-        <Card.Title>
-          {company.name}{" "}
-          <Pencil className="position-absolute end-0 m-2" size={13} />
-        </Card.Title>
+        <Card.Title className="text-center">{company.name}</Card.Title>
       </Card.Body>
     </Card>
   );
