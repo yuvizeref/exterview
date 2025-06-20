@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import type { CompanyType } from "../types/CompanyType";
 import { addCompany } from "../utils/CompanyUtils";
@@ -23,6 +23,14 @@ const AddCompanyModal = ({ showModal, onClose, onSubmit }: Props) => {
     handleClose();
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    handleAdd();
+  };
+
+  const textOnChange = (event: { target: { value: any } }) =>
+    setCompany({ name: event.target.value, id: null });
+
   useEffect(() => {
     if (showModal) setShow(true);
     else setShow(false);
@@ -34,14 +42,10 @@ const AddCompanyModal = ({ showModal, onClose, onSubmit }: Props) => {
         <Modal.Title>Add Company</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Company</Form.Label>
-            <Form.Control
-              type="text"
-              onChange={(e) => setCompany({ name: e.target.value, id: null })}
-              autoFocus
-            />
+            <Form.Control type="text" onChange={textOnChange} autoFocus />
           </Form.Group>
         </Form>
       </Modal.Body>

@@ -1,5 +1,5 @@
 import * as Constants from "../constants";
-import type { ApplicationType } from "../types/ApplicationTye";
+import type { ApplicationType } from "../types/Types";
 
 const fetchApplications = async (
   companyId: number,
@@ -40,4 +40,20 @@ const fetchAllApplications = async (
   }
 };
 
-export { fetchApplications, fetchAllApplications };
+const deleteApplication = async (applicationId: number) => {
+  try {
+    const response = await fetch(
+      Constants.API_URL + "/applications/" + applicationId,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete company");
+    }
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};
+
+export { fetchApplications, fetchAllApplications, deleteApplication };

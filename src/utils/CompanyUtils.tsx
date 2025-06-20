@@ -1,5 +1,5 @@
 import * as Constants from "../constants";
-import type { CompanyType } from "../types/CompanyType";
+import type { CompanyType } from "../types/Types";
 
 const fetchCompanies = async (
   setCompanies: (data: CompanyType[]) => void,
@@ -35,6 +35,7 @@ const addCompany = async (
     if (!response.ok) {
       throw new Error("Failed to add company");
     }
+
     const result = await response.json();
     setCompanies(result);
   } catch (error: unknown) {
@@ -42,4 +43,20 @@ const addCompany = async (
   }
 };
 
-export { fetchCompanies, addCompany };
+const deleteCompany = async (companyId: number) => {
+  try {
+    const response = await fetch(
+      Constants.API_URL + "/companies/" + companyId,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to delete company");
+    }
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};
+
+export { fetchCompanies, addCompany, deleteCompany };

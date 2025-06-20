@@ -1,9 +1,8 @@
-import { Container, ListGroup } from "react-bootstrap";
-import type { ApplicationType } from "../types/ApplicationTye";
+import { Container } from "react-bootstrap";
+import type { ApplicationType } from "../types/Types";
 import ApplicationCard from "./ApplicationCard";
 import { fetchApplications } from "../utils/ApplicationUtils";
 import { useEffect, useState } from "react";
-import { ApplGroupContainerStyle } from "../styles/Styles";
 
 interface Props {
   companyId: number;
@@ -17,16 +16,26 @@ const ApplicationCardGroup = ({ companyId }: Props) => {
     fetchApplications(companyId, setApplications, setLoading);
   }, [companyId]);
 
+  const handleDelete = (applicationId: number) => {
+    setApplications((prevApplications) => {
+      const updatedApplications = prevApplications.filter(
+        (application) => application.id !== applicationId
+      );
+      return updatedApplications;
+    });
+  };
+
   if (loading) return <>Loading......</>;
 
   return (
-    <Container fluid style={ApplGroupContainerStyle}>
+    <Container className="application-group-container" fluid>
       {applications.length == 0 && <>No Applications</>}
       {applications.length > 0 &&
         applications.map((application) => (
-          <ListGroup.Item style={{ width: "16rem", height: "25%" }}>
-            <ApplicationCard application={application}></ApplicationCard>
-          </ListGroup.Item>
+          <ApplicationCard
+            application={application}
+            onDelete={handleDelete}
+          ></ApplicationCard>
         ))}
     </Container>
   );

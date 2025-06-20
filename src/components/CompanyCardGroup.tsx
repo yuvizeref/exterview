@@ -1,9 +1,8 @@
-import { Button, Container, Form, ListGroup } from "react-bootstrap";
-import type { CompanyType } from "../types/CompanyType";
+import { Button, Container, Form } from "react-bootstrap";
+import type { CompanyType } from "../types/Types";
 import CompanyCard from "./CompanyCard";
 import { useEffect, useState } from "react";
 import { fetchCompanies } from "../utils/CompanyUtils";
-import { CompGroupContainerStyle } from "../styles/Styles";
 import debounce from "lodash/debounce";
 import AddCompanyModal from "./AddCompanyModal";
 
@@ -57,6 +56,15 @@ const CompanyCardGroup = ({ onClick }: Props) => {
     });
   };
 
+  const handleDelete = (companyId: number) => {
+    setCompanies((prevCompanies) => {
+      const updatedCompanies = prevCompanies.filter(
+        (company) => company.id !== companyId
+      );
+      return updatedCompanies;
+    });
+  };
+
   const handleAdd = () => setShowModal(true);
 
   const handleModalClose = () => setShowModal(false);
@@ -73,7 +81,7 @@ const CompanyCardGroup = ({ onClick }: Props) => {
 
   return (
     <>
-      <Container fluid style={CompGroupContainerStyle}>
+      <Container className="company-group-container" fluid>
         <Form.Control
           type="text"
           placeholder="Search..."
@@ -81,21 +89,17 @@ const CompanyCardGroup = ({ onClick }: Props) => {
           onChange={handleSearchChange}
           className="mb-4"
         />
-        <Container fluid style={{ overflow: "auto", height: "75vh" }}>
+        <Container className="company-card-container" fluid>
           {filteredCompanies.map((company) => (
-            <ListGroup.Item
-              style={{ padding: "5px 5px 5px 0" }}
-              key={company.id}
-            >
-              <CompanyCard
-                company={company}
-                selected={company.id === selected}
-                onClick={handleClick}
-              />
-            </ListGroup.Item>
+            <CompanyCard
+              company={company}
+              selected={company.id === selected}
+              onClick={handleClick}
+              onDelete={handleDelete}
+            />
           ))}
         </Container>
-        <Button variant="info" className="w-100" onClick={handleAdd}>
+        <Button variant="primary" className="w-100" onClick={handleAdd}>
           Add
         </Button>
         <AddCompanyModal
