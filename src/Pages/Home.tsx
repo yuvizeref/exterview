@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <>
       <CommonNavigationBar></CommonNavigationBar>
-      <Container fluid style={{ display: "flex" }}>
+      <Container fluid className="d-flex">
         <CompanyCardGroup onClick={handleCompanyClick}></CompanyCardGroup>
         <ApplicationCardGroup companyId={companyId}></ApplicationCardGroup>
       </Container>

@@ -1,10 +1,10 @@
 interface CompanyType {
-  id: number;
+  id: number | null;
   name: string;
 }
 
 interface ApplicationType {
-  id: number;
+  id: number | null;
   companyId: number;
   role: string;
   dateApplied: string;

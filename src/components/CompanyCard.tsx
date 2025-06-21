@@ -1,7 +1,8 @@
 import { Card } from "react-bootstrap";
 import type { CompanyType } from "../types/Types";
 import { FaTrash } from "react-icons/fa";
-import { deleteCompany } from "../utils/CompanyUtils";
+import { deleteCompany, editCompany } from "../utils/CompanyUtils";
+import { useEffect, useState } from "react";
 
 interface Props {
   company: CompanyType;
@@ -11,6 +12,10 @@ interface Props {
 }
 
 const CompanyCard = ({ company, selected, onClick, onDelete }: Props) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(company.name);
+  const [initialTitle, setInitialTitle] = useState(company.name);
+
   const handleDelete = (companyId: number) => {
     deleteCompany(companyId);
     onDelete(companyId);
@@ -18,13 +23,46 @@ const CompanyCard = ({ company, selected, onClick, onDelete }: Props) => {
 
   const handleDeleteClick = (event: { stopPropagation: () => void }) => {
     event.stopPropagation();
-    handleDelete(company.id);
+    company.id && handleDelete(company.id);
   };
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    setEditedTitle(e.target.value);
+  };
+
+  const handleBlur = () => {
+    setIsEditing(false);
+    if (editedTitle !== initialTitle) {
+      editCompany({ name: editedTitle, id: company.id });
+    }
+  };
+
+  useEffect(() => {
+    setEditedTitle(company.name);
+    setInitialTitle(company.name);
+  }, [company]);
+
   return (
-    <Card className="company-card" bg={selected ? "info" : ""} key={company.id}>
-      <Card.Body onClick={() => onClick(company.id)}>
-        <Card.Title className="text-center">{company.name}</Card.Title>
+    <Card className="company-card" bg={selected ? "info" : ""}>
+      <Card.Body onClick={() => company.id && onClick(company.id)}>
+        {isEditing ? (
+          <input
+            type="text"
+            value={editedTitle}
+            onChange={handleTitleChange}
+            onBlur={handleBlur}
+            autoFocus
+            className="text-center form-control"
+          />
+        ) : (
+          <Card.Title
+            className="text-center"
+            onClick={() => selected && setIsEditing(true)}
+          >
+            {editedTitle}
+          </Card.Title>
+        )}
       </Card.Body>
       <FaTrash className="delete-icon" onClick={handleDeleteClick}></FaTrash>
     </Card>

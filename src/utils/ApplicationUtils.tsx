@@ -56,4 +56,31 @@ const deleteApplication = async (applicationId: number) => {
   }
 };
 
-export { fetchApplications, fetchAllApplications, deleteApplication };
+const addApplication = async (
+  application: ApplicationType,
+  setApplications: (application: ApplicationType) => void
+) => {
+  try {
+    const response = await fetch(Constants.API_URL + "/applications", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(application),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to add company");
+    }
+
+    const result = await response.json();
+    setApplications(result);
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};
+
+export {
+  fetchApplications,
+  fetchAllApplications,
+  deleteApplication,
+  addApplication,
+};

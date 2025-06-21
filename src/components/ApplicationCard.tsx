@@ -16,7 +16,7 @@ const ApplicationCard = ({ application, onDelete }: Props) => {
 
   const handleDeleteClick = (event: { stopPropagation: () => void }) => {
     event.stopPropagation();
-    handleDelete(application.id);
+    application.id && handleDelete(application.id);
   };
 
   return (

@@ -59,4 +59,19 @@ const deleteCompany = async (companyId: number) => {
   }
 };
 
-export { fetchCompanies, addCompany, deleteCompany };
+const editCompany = async (company: CompanyType) => {
+  try {
+    const response = await fetch(Constants.API_URL + "/companies", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(company),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to edit company");
+    }
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};
+
+export { fetchCompanies, addCompany, deleteCompany, editCompany };

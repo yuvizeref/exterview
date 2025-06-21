@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import type { CompanyType } from "../types/CompanyType";
+import type { CompanyType } from "../types/Types";
 import { addCompany } from "../utils/CompanyUtils";
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   onClose: () => void;
   onSubmit: (company: CompanyType) => void;
 }
+
 const AddCompanyModal = ({ showModal, onClose, onSubmit }: Props) => {
   const [show, setShow] = useState(false);
   const [company, setCompany] = useState<CompanyType>({ name: "", id: null });
@@ -28,7 +29,7 @@ const AddCompanyModal = ({ showModal, onClose, onSubmit }: Props) => {
     handleAdd();
   };
 
-  const textOnChange = (event: { target: { value: any } }) =>
+  const textOnChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setCompany({ name: event.target.value, id: null });
 
   useEffect(() => {

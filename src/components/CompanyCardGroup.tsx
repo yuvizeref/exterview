@@ -1,10 +1,11 @@
-import { Button, Container, Form } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 import type { CompanyType } from "../types/Types";
 import CompanyCard from "./CompanyCard";
 import { useEffect, useState } from "react";
 import { fetchCompanies } from "../utils/CompanyUtils";
 import debounce from "lodash/debounce";
 import AddCompanyModal from "./AddCompanyModal";
+import AddCompanyCard from "./AddCompanyCard";
 
 interface Props {
   onClick: (companyId: number) => void;
@@ -87,7 +88,7 @@ const CompanyCardGroup = ({ onClick }: Props) => {
           placeholder="Search..."
           value={searchQuery}
           onChange={handleSearchChange}
-          className="mb-4"
+          className="mb-2"
         />
         <Container className="company-card-container" fluid>
           {filteredCompanies.map((company) => (
@@ -96,12 +97,11 @@ const CompanyCardGroup = ({ onClick }: Props) => {
               selected={company.id === selected}
               onClick={handleClick}
               onDelete={handleDelete}
+              key={company.id}
             />
           ))}
         </Container>
-        <Button variant="primary" className="w-100" onClick={handleAdd}>
-          Add
-        </Button>
+        <AddCompanyCard onClick={handleAdd}></AddCompanyCard>
         <AddCompanyModal
           showModal={showModal}
           onClose={handleModalClose}
