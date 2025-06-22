@@ -8,13 +8,13 @@ import AddCompanyModal from "./AddCompanyModal";
 import AddCompanyCard from "./AddCompanyCard";
 
 interface Props {
-  onClick: (companyId: number) => void;
+  onClick: (company: CompanyType) => void;
 }
 
 const CompanyCardGroup = ({ onClick }: Props) => {
   const [companies, setCompanies] = useState<CompanyType[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState(-1);
+  const [selectedCompany, setSelectedCompany] = useState<CompanyType>();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCompanies, setFilteredcompanies] = useState<CompanyType[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -42,13 +42,13 @@ const CompanyCardGroup = ({ onClick }: Props) => {
     debouncedSearch(query);
   };
 
-  const handleClick = (companyId: number) => {
-    setSelected(companyId);
-    onClick(companyId);
+  const handleClick = (company: CompanyType) => {
+    setSelectedCompany(company);
+    onClick(company);
   };
 
   const handlesubmit = (company: CompanyType) => {
-    setCompanies((prevCompanies) => {
+    setFilteredcompanies((prevCompanies) => {
       const updatedCompanies = [...prevCompanies, company];
       const sortedCompanies = updatedCompanies.sort((a, b) =>
         a.name.localeCompare(b.name)
@@ -57,25 +57,26 @@ const CompanyCardGroup = ({ onClick }: Props) => {
     });
   };
 
-  const handleDelete = (companyId: number) => {
-    setCompanies((prevCompanies) => {
+  const handleDelete = (company: CompanyType) => {
+    setFilteredcompanies((prevCompanies) => {
       const updatedCompanies = prevCompanies.filter(
-        (company) => company.id !== companyId
+        (prevCompany) => prevCompany.id !== company.id
       );
       return updatedCompanies;
     });
+    onClick({ id: -1, name: "" });
   };
 
   const handleAdd = () => setShowModal(true);
 
   const handleModalClose = () => setShowModal(false);
 
-  const companyInFiltered = filteredCompanies.some(
-    (company) => company.id === selected
-  );
+  const companyInFiltered = filteredCompanies.some((company) => {
+    selectedCompany && company.id === selectedCompany.id;
+  });
 
   useEffect(() => {
-    if (!companyInFiltered) onClick(-1);
+    if (!companyInFiltered) onClick({ id: null, name: "" });
   }, [companyInFiltered, onClick]);
 
   if (loading) return <>Loading......</>;
@@ -94,7 +95,10 @@ const CompanyCardGroup = ({ onClick }: Props) => {
           {filteredCompanies.map((company) => (
             <CompanyCard
               company={company}
-              selected={company.id === selected}
+              selected={
+                selectedCompany !== undefined &&
+                company.id === selectedCompany.id
+              }
               onClick={handleClick}
               onDelete={handleDelete}
               key={company.id}

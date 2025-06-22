@@ -1,22 +1,29 @@
 import { Card, CardText } from "react-bootstrap";
 import type { ApplicationType } from "../types/Types";
-import { FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { deleteApplication } from "../utils/ApplicationUtils";
+import type React from "react";
 
 interface Props {
   application: ApplicationType;
-  onDelete: (applicationId: number) => void;
+  onDelete: (application: ApplicationType) => void;
+  onEdit: (application: ApplicationType) => void;
 }
 
-const ApplicationCard = ({ application, onDelete }: Props) => {
-  const handleDelete = (applicationId: number) => {
-    onDelete(applicationId);
-    deleteApplication(applicationId);
+const ApplicationCard = ({ application, onDelete, onEdit }: Props) => {
+  const handleDelete = (selectedApplication: ApplicationType) => {
+    onDelete(selectedApplication);
+    deleteApplication(selectedApplication);
   };
 
-  const handleDeleteClick = (event: { stopPropagation: () => void }) => {
+  const handleDeleteClick = (event: React.MouseEvent<SVGElement>) => {
     event.stopPropagation();
-    application.id && handleDelete(application.id);
+    application.id && handleDelete(application);
+  };
+
+  const handleEditClick = (event: React.MouseEvent<SVGElement>) => {
+    event.stopPropagation();
+    onEdit(application);
   };
 
   return (
@@ -26,7 +33,8 @@ const ApplicationCard = ({ application, onDelete }: Props) => {
         <CardText>Date Applied : {application.dateApplied}</CardText>
         <CardText>Verdict : {application.verdict}</CardText>
       </Card.Body>
-      <FaTrash className="delete-icon" onClick={handleDeleteClick}></FaTrash>
+      <FaTrash className="delete-icon" onClick={handleDeleteClick} />
+      <FaEdit className="edit-icon" onClick={handleEditClick} />
     </Card>
   );
 };

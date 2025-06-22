@@ -4,12 +4,15 @@ import CommonNavigationBar from "../components/CommonNavigationBar";
 import CompanyCardGroup from "../components/CompanyCardGroup";
 import { Container } from "react-bootstrap";
 import "../styles/Styles.css";
+import type { CompanyType } from "../types/Types";
+
+const dummyCompany = { id: null, name: "" };
 
 const Home = () => {
-  const [companyId, setCompanyId] = useState(0);
+  const [company, setCompany] = useState<CompanyType>(dummyCompany);
 
-  const handleCompanyClick = (id: number) => {
-    setCompanyId(id);
+  const handleCompanyClick = (company: CompanyType) => {
+    company.id && setCompany(company);
   };
 
   return (
@@ -17,7 +20,7 @@ const Home = () => {
       <CommonNavigationBar></CommonNavigationBar>
       <Container fluid className="d-flex">
         <CompanyCardGroup onClick={handleCompanyClick}></CompanyCardGroup>
-        <ApplicationCardGroup companyId={companyId}></ApplicationCardGroup>
+        <ApplicationCardGroup company={company}></ApplicationCardGroup>
       </Container>
     </>
   );

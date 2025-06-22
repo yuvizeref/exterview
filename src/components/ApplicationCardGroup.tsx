@@ -1,49 +1,79 @@
 import { Container } from "react-bootstrap";
-import type { ApplicationType } from "../types/Types";
+import type { ApplicationType, CompanyType } from "../types/Types";
 import ApplicationCard from "./ApplicationCard";
 import { fetchApplications } from "../utils/ApplicationUtils";
 import { useEffect, useState } from "react";
 import AddApplicationCard from "./AddApplicationCard";
-import AddApplicationModal from "./AddApplcationModal";
+import ApplicationModal from "./ApplicationModal";
 
 interface Props {
-  companyId: number;
+  company: CompanyType;
 }
 
-const ApplicationCardGroup = ({ companyId }: Props) => {
+const ApplicationCardGroup = ({ company }: Props) => {
+  const dummy = {
+    id: null,
+    companyId: company.id,
+    role: "",
+    dateApplied: "",
+    verdict: "",
+  };
+
   const [applications, setApplications] = useState<ApplicationType[]>([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [action, setAction] = useState("add");
+  const [modalApplication, setModalApplication] =
+    useState<ApplicationType>(dummy);
 
   useEffect(() => {
-    fetchApplications(companyId, setApplications, setLoading);
-  }, [companyId]);
+    fetchApplications(company.id, setApplications, setLoading);
+  }, [company]);
 
-  const handleDelete = (applicationId: number) => {
+  const handleDelete = (selectedApplication: ApplicationType) => {
     setApplications((prevApplications) => {
       const updatedApplications = prevApplications.filter(
-        (application) => application.id !== applicationId
+        (prevApplication) => prevApplication.id !== selectedApplication.id
       );
       return updatedApplications;
     });
   };
 
-  const handlesubmit = (application: ApplicationType) => {
-    setApplications((prevApplications) => {
-      const updatedCompanies = [...prevApplications, application];
-      return updatedCompanies;
-    });
+  const handleAdd = () => {
+    setAction("add");
+    setModalApplication(dummy);
+    setShowModal(true);
   };
 
-  const handleAdd = () => setShowModal(true);
+  const handleEdit = (application: ApplicationType) => {
+    setAction("edit");
+    setModalApplication(application);
+    setShowModal(true);
+  };
 
-  const handleModalClose = () => setShowModal(false);
+  const onClose = () => setShowModal(false);
+
+  const onSubmit = (application: ApplicationType, action: string) => {
+    if (action === "add") {
+      setApplications((prevApplications) => {
+        const updatedApplications = [...prevApplications, application];
+        return updatedApplications;
+      });
+    } else if (action === "edit") {
+      setApplications((prevApplications) => {
+        const updatedApplications = prevApplications.map((app) =>
+          app.id === application.id ? { ...app, ...application } : app
+        );
+        return updatedApplications;
+      });
+    }
+  };
 
   if (loading) return <>Loading......</>;
 
   return (
     <Container className="application-group-container" fluid>
-      {companyId > 0 && (
+      {company.id && company.id > 0 && (
         <AddApplicationCard onClick={handleAdd}></AddApplicationCard>
       )}
       {applications.length > 0 &&
@@ -52,14 +82,16 @@ const ApplicationCardGroup = ({ companyId }: Props) => {
             application={application}
             onDelete={handleDelete}
             key={application.id}
+            onEdit={handleEdit}
           ></ApplicationCard>
         ))}
-      <AddApplicationModal
+      <ApplicationModal
         showModal={showModal}
-        companyId={companyId}
-        onClose={handleModalClose}
-        onSubmit={handlesubmit}
-      ></AddApplicationModal>
+        input={modalApplication}
+        action={action}
+        onClose={onClose}
+        onSubmit={onSubmit}
+      ></ApplicationModal>
     </Container>
   );
 };

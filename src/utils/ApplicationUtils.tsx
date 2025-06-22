@@ -2,10 +2,11 @@ import * as Constants from "../constants";
 import type { ApplicationType } from "../types/Types";
 
 const fetchApplications = async (
-  companyId: number,
+  companyId: number | null,
   setApplications: (data: ApplicationType[]) => void,
   setLoading: (flag: boolean) => void
 ) => {
+  if (companyId == null) return;
   try {
     const response = await fetch(
       Constants.API_URL + "/applications/company/" + companyId
@@ -40,10 +41,10 @@ const fetchAllApplications = async (
   }
 };
 
-const deleteApplication = async (applicationId: number) => {
+const deleteApplication = async (application: ApplicationType) => {
   try {
     const response = await fetch(
-      Constants.API_URL + "/applications/" + applicationId,
+      Constants.API_URL + "/applications/" + application.id,
       {
         method: "DELETE",
       }
@@ -58,7 +59,7 @@ const deleteApplication = async (applicationId: number) => {
 
 const addApplication = async (
   application: ApplicationType,
-  setApplications: (application: ApplicationType) => void
+  updateApplications: (application: ApplicationType, action: string) => void
 ) => {
   try {
     const response = await fetch(Constants.API_URL + "/applications", {
@@ -72,7 +73,29 @@ const addApplication = async (
     }
 
     const result = await response.json();
-    setApplications(result);
+    updateApplications(result, "add");
+  } catch (error: unknown) {
+    console.log(error);
+  }
+};
+
+const editApplication = async (
+  application: ApplicationType,
+  updateApplications: (application: ApplicationType, action: string) => void
+) => {
+  try {
+    const response = await fetch(Constants.API_URL + "/applications", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(application),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to add company");
+    }
+
+    const result = await response.json();
+    updateApplications(result, "edit");
   } catch (error: unknown) {
     console.log(error);
   }
@@ -83,4 +106,5 @@ export {
   fetchAllApplications,
   deleteApplication,
   addApplication,
+  editApplication,
 };

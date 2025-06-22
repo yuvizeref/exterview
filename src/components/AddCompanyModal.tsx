@@ -19,7 +19,6 @@ const AddCompanyModal = ({ showModal, onClose, onSubmit }: Props) => {
   };
 
   const handleAdd = () => {
-    if (company.name == "") return;
     addCompany(company, onSubmit);
     handleClose();
   };
@@ -42,20 +41,25 @@ const AddCompanyModal = ({ showModal, onClose, onSubmit }: Props) => {
       <Modal.Header>
         <Modal.Title>Add Company</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
+        <Modal.Body>
           <Form.Group className="mb-3">
             <Form.Label>Company</Form.Label>
-            <Form.Control type="text" onChange={textOnChange} autoFocus />
+            <Form.Control
+              type="text"
+              onChange={textOnChange}
+              autoFocus
+              required
+            />
           </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={handleClose} variant="secondary">
-          Close
-        </Button>
-        <Button onClick={handleAdd}>Add</Button>
-      </Modal.Footer>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={handleClose} variant="secondary">
+            Close
+          </Button>
+          <Button type="submit">Add</Button>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 };

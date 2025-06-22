@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 interface Props {
   company: CompanyType;
   selected: boolean;
-  onClick: (companyId: number) => void;
-  onDelete: (companyId: number) => void;
+  onClick: (company: CompanyType) => void;
+  onDelete: (company: CompanyType) => void;
 }
 
 const CompanyCard = ({ company, selected, onClick, onDelete }: Props) => {
@@ -16,14 +16,14 @@ const CompanyCard = ({ company, selected, onClick, onDelete }: Props) => {
   const [editedTitle, setEditedTitle] = useState(company.name);
   const [initialTitle, setInitialTitle] = useState(company.name);
 
-  const handleDelete = (companyId: number) => {
-    deleteCompany(companyId);
-    onDelete(companyId);
+  const handleDelete = (company: CompanyType) => {
+    deleteCompany(company);
+    onDelete(company);
   };
 
-  const handleDeleteClick = (event: { stopPropagation: () => void }) => {
+  const handleDeleteClick = (event: React.MouseEvent<SVGElement>) => {
     event.stopPropagation();
-    company.id && handleDelete(company.id);
+    company.id && handleDelete(company);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,7 @@ const CompanyCard = ({ company, selected, onClick, onDelete }: Props) => {
 
   return (
     <Card className="company-card" bg={selected ? "info" : ""}>
-      <Card.Body onClick={() => company.id && onClick(company.id)}>
+      <Card.Body onClick={() => company.id && onClick(company)}>
         {isEditing ? (
           <input
             type="text"

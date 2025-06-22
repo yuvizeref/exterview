@@ -5,7 +5,7 @@ interface CompanyType {
 
 interface ApplicationType {
   id: number | null;
-  companyId: number;
+  companyId: number | null;
   role: string;
   dateApplied: string;
   verdict: string;

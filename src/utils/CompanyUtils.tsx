@@ -43,10 +43,10 @@ const addCompany = async (
   }
 };
 
-const deleteCompany = async (companyId: number) => {
+const deleteCompany = async (company: CompanyType) => {
   try {
     const response = await fetch(
-      Constants.API_URL + "/companies/" + companyId,
+      Constants.API_URL + "/companies/" + company.id,
       {
         method: "DELETE",
       }

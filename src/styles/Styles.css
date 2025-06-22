@@ -47,10 +47,21 @@
 
 .delete-icon {
   position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #f19191;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.edit-icon {
+  position: absolute;
   top: 10px;
   right: 10px;
   font-size: 20px;
-  color: #e05129;
+  color: #67c3df;
   opacity: 0;
   transition: opacity 0.3s ease;
   cursor: pointer;
@@ -61,6 +72,10 @@
 }
 
 .application-card:hover .delete-icon {
+  opacity: 1;
+}
+
+.application-card:hover .edit-icon {
   opacity: 1;
 }
 
