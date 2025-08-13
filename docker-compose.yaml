@@ -1,0 +1,14 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: exterview-backend
+    ports:
+      - "9090:9090"
+
+  frontend:
+    build:
+      context: ./frontend
+    image: exterview-frontend
+    ports:
+      - "7000:7000"

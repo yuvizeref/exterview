@@ -1,28 +1,20 @@
-# Stage 1: Build Stage (for React app)
-FROM node:22.16.0 as build
+# Use a Node.js Alpine image for a smaller size
+FROM node:alpine
 
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy only the necessary files (excluding large images)
-COPY package.json package-lock.json ./
+# Copy package.json and package-lock.json (or yarn.lock if you're using Yarn)
+COPY package*.json ./
 
-# Install dependencies
+# Install npm dependencies (this step will be cached if package files don't change)
 RUN npm install
 
-# Copy source code (exclude large images via .dockerignore)
+# Copy the rest of the application code into the container
 COPY . .
 
-# Build the React app (static files)
-RUN npm run build
+# Expose the port Vite will run on (default is 3000)
+EXPOSE 7000
 
-# Stage 2: Production Stage (use Nginx to serve built files)
-FROM nginx:alpine
-
-# Copy the build output from the previous stage
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Expose the default HTTP port
-EXPOSE 80
-
-# Start Nginx to serve the app
-CMD ["nginx", "-g", "daemon off;"]
+# Command to start the app in development mode
+CMD ["npm", "start"]
