@@ -1,0 +1,112 @@
+.company-group-container {
+  width: 20%;
+  height: 90vh;
+  margin: 5px;
+  border-radius: 8px;
+  padding: 10px 10px 0 3px;
+}
+
+.company-card-container {
+  overflow: auto;
+  height: 70vh;
+}
+
+.company-card {
+  margin: 4px 5px 4px 0;
+  position: relative;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.application-card {
+  width: 16rem;
+  height: 10rem;
+  margin: 3px 6px 3px 6px;
+  border-radius: 10%;
+  cursor: pointer;
+}
+
+.application-group-container {
+  height: 85vh;
+  border-radius: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 10px;
+  align-content: flex-start;
+}
+
+.company-card:hover,
+.application-card:hover,
+.add-application-card:hover,
+.add-company-card:hover {
+  transform: scale(1.05);
+}
+
+.delete-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #f19191;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: #67c3df;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.company-card:hover .delete-icon {
+  opacity: 1;
+}
+
+.application-card:hover .delete-icon {
+  opacity: 1;
+}
+
+.application-card:hover .edit-icon {
+  opacity: 1;
+}
+
+.add-application-card {
+  width: 16rem;
+  height: 10rem;
+  margin: 3px 6px 3px 6px;
+  border-radius: 10%;
+  cursor: pointer;
+  text-align: center;
+}
+
+.add-application-card .card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.add-company-card {
+  margin: 4px 5px 4px 0;
+  position: relative;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+
+.add-company-card .card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
